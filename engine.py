@@ -14,7 +14,7 @@ class color:
 
 class mine_engine:
     mine_map = Array() # [[row]]
-    mines_map = Array() # [addresses in mine_map]
+    mines_adds = Array() # [addresses in mine_map]
     map_size = Array() # row x col -> exp: 8 x 8
     map_flaged = Array()
     num_mines = int()
@@ -36,7 +36,7 @@ class mine_engine:
         if result:
             print(color.GREEN + f'{operation} executed successfully')
         else:
-            print(color.RED + f'Error in executing {operation} -> {cause}')
+            print(color.RED + f'Error in executing {operation} {"\n -> " + cause if cause else ""}')
 
     def map_size(self,rows,cols):
         """
@@ -60,20 +60,44 @@ class mine_engine:
         returns bool
         """
         pass
+
     def create_map(self):
         """
         Creates a new game mine map
         returns mines' array
         """
         if check_vars() :
-            pass
+            self.mine_map = []
+            for row in range(self.map_size[0]):
+                for col in range(self.map_size[1]):
+                    self.mine_map[row][col] = ' '
+            self.message(True,'create_map')
         else:
             self.message(False,'create_map','Error in reading variables.')
 
+    def generate_mines(self):
+        """
+        Generates mines addresses and puts them into mines_adds array.
+        """
+        if check_vars() && self.mine_map && self.num_mines:
+            for mine in range(self.num_mines):
+                while True:
+                    randrow = random.randint(0,self.map_size[0])
+                    randcol = random.randint(0,self.map_size[1])
+                    if [randrow,randcol] not in self.mines_adds:
+                        self.mines_adds.append([random,randcol])
+                        break
+            self.message(True,'generate_mines')
+        else:
+            self.message(False,'create_map',"""Error in reading variables or there is no map created,
+                                                create a map by runngin create_map() function""")
+
+
+
     def check_cell(self):
         """
-        Will return number of mines around it, and cell addresses that are not mine.
-        return array [number_of_mines_near,[neighbour zero cells' addresses]]
+        Will return number of mines around it.
+        if it is mine, returs True.
         """
         pass
 
@@ -86,6 +110,9 @@ class mine_engine:
 
     def click(self):
         """
-        Will action selecting a cell, if it is mine will blow, otherwise will reveal number of mines near for selected cells and neighbours that are zero.
+        Will action selecting a cell, if it is mine will blow,
+        otherwise will reveal number of mines near for selected cells,
+        but if it is zero, checks for each 4 neighbours,if they are numbers,
+        reveals them, but if each is zero, again that neighbour checks for unreveled neighbours.
         """
         pass
