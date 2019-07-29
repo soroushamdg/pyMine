@@ -12,6 +12,14 @@ class color:
     UNDERLINE = '\033[4m'
     END = '\033[0m'
 
+def clear_terminal():
+    if os.name == 'nt':
+        os.system('cls')
+
+    # for mac and linux(here, os.name is 'posix')
+    else:
+        os.system('clear')
+
 class mine_engine:
     mine_map = Array() # [[row]]
     mines_adds = Array() # [addresses in mine_map]
@@ -38,6 +46,10 @@ class mine_engine:
         else:
             print(color.RED + f'Error in executing {operation} {"\n -> " + cause if cause else ""}')
 
+
+
+
+
     def map_size(self,rows,cols):
         """
         Will set map_size array
@@ -52,14 +64,28 @@ class mine_engine:
             return False
 
     def print_map(self):
-        pass
+        if check_vars():
+            for num ,row in enumerate(self.mine_map):
+                if num == 0:
+                    print('---'*self.map_size[1])
+                print(f'{f'|{col}|' for col in row}')
+                print('---'*self.map_size[1])
+        else:
+            self.message(False,'print_map','Error in reading variables.')
+
 
     def check_vars(self):
         """
         Checks if game map and variables are defined correctly to start the game.
+        checks :
+            map_size = Array() # row x col -> exp: 8 x 8
+            num_mines = int()
         returns bool
         """
-        pass
+        if self.map_size && self.num_mines:
+            return True
+        else:
+            return False
 
     def create_map(self):
         """
@@ -93,22 +119,31 @@ class mine_engine:
                                                 create a map by runngin create_map() function""")
 
 
-
-    def check_cell(self):
+    def check_cell(self,row,col):
         """
-        Will return number of mines around it.
+        Will return addresses of mines around it.[[row,col]]
         if it is mine, returs True.
         """
-        pass
+        return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] for ccol in [col+1,col-1]] if cell in self.mines_adds]
 
-    def flag(self):
+
+    def flag(self,row,col):
         """
-        Flags a selected cell, flags cell addresses will be saved in array
+        Flags a selected cell, flags cell addresses will be saved in map_flaged and mine_map array.
         returns bool
         """
-        pass
+        if self.check_vars():
+            if [row,col] in self.map_flaged:
+                self.map_flaged.remove([row,col])
+                self.mine_map[row][col] = " "
+            else:
+                self.map_flaged.append([row,col])
+                self.mine_map[row][col] = "P"
+        else:
+            self.message(False,'flag',"""Error in reading variables or there is no map created,
+                                                create a map by runngin create_map() function""")
 
-    def click(self):
+    def click(self,row,col):
         """
         Will action selecting a cell, if it is mine will blow,
         otherwise will reveal number of mines near for selected cells,
@@ -116,3 +151,11 @@ class mine_engine:
         reveals them, but if each is zero, again that neighbour checks for unreveled neighbours.
         """
         pass
+
+    def game_over(self):
+        clear_terminal()
+        print(color.BOLD + color.RED + 'GAME OVER!')
+
+    def game_win(self):
+        clear_terminal()
+        print(color.BOLD + color.YELLOW + 'YOU WON!')
