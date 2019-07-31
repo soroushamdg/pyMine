@@ -1,4 +1,5 @@
 import random
+import os
 
 class color:
     PURPLE = '\033[95m'
@@ -22,10 +23,10 @@ def clear_terminal():
 
 class mine_engine:
 
-    mine_map = Array() # [[row]]
-    mines_adds = Array() # [addresses in mine_map]
-    map_size = Array() # row x col -> exp: 8 x 8
-    map_flaged = Array()
+    mine_map = list() # [[row]]
+    mines_adds = list() # [addresses in mine_map]
+    map_size = list() # row x col -> exp: 8 x 8
+    map_flaged = list()
     num_mines = int()
 
     def __init__(self):
@@ -45,7 +46,7 @@ class mine_engine:
         if result:
             print(color.GREEN + f'{operation} executed successfully')
         else:
-            print(color.RED + f'Error in executing {operation} {"\n -> " + cause if cause else ""}')
+            print(color.RED + f'Error in executing {operation} {" -> " + cause if cause else ""}')
 
 
 
@@ -56,7 +57,7 @@ class mine_engine:
         Will set map_size array
         returns bool
         """
-        if int(rows)<100 && int(cols)<100:
+        if int(rows)<100 and int(cols)<100:
             self.map_size = [rows,cols]
             self.message(True,'map_size')
             return True
@@ -69,7 +70,7 @@ class mine_engine:
             for num ,row in enumerate(self.mine_map):
                 if num == 0:
                     print('---'*self.map_size[1])
-                print(f'{f'|{col}|' for col in row}')
+                print(f'{"|"+col+"|" for col in row}')
                 print('---'*self.map_size[1])
         else:
             self.message(False,'print_map','Error in reading variables.')
@@ -79,11 +80,11 @@ class mine_engine:
         """
         Checks if game map and variables are defined correctly to start the game.
         checks :
-            map_size = Array() # row x col -> exp: 8 x 8
+            map_size = list() # row x col -> exp: 8 x 8
             num_mines = int()
         returns bool
         """
-        if self.map_size && self.num_mines:
+        if self.map_size and self.num_mines:
             return True
         else:
             return False
@@ -106,7 +107,7 @@ class mine_engine:
         """
         Generates mines addresses and puts them into mines_adds array.
         """
-        if check_vars() && self.mine_map && self.num_mines:
+        if check_vars() and self.mine_map and self.num_mines:
             for mine in range(self.num_mines):
                 while True:
                     randrow = random.randint(0,self.map_size[0])
@@ -128,7 +129,7 @@ class mine_engine:
         return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] for ccol in [col+1,col-1]] if cell in self.mines_adds]
 
     def cells_around(self,row,col):
-        return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] if for ccol in [col+1,col-1] ccol ] if self.mine_map[cell[0]][cell[1]]]
+        return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] for ccol in [col+1,col-1]] if self.mine_map[cell[0]][cell[1]]]
 
     def flag(self,row,col):
         """
@@ -159,11 +160,11 @@ class mine_engine:
             return
         else:
             while(not self.check_cell(row, col)):
-                pass
+                for cell in self.cells_around(row,col):
+                    click(cell[0],cell[1],False)
             else:
                 #here shows number of mines
                 self.mine_map[row][col] = len(self.check_cell(row,col))
-        pass
 
     def game_over(self):
         clear_terminal()
