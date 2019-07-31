@@ -21,6 +21,7 @@ def clear_terminal():
         os.system('clear')
 
 class mine_engine:
+
     mine_map = Array() # [[row]]
     mines_adds = Array() # [addresses in mine_map]
     map_size = Array() # row x col -> exp: 8 x 8
@@ -126,6 +127,8 @@ class mine_engine:
         """
         return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] for ccol in [col+1,col-1]] if cell in self.mines_adds]
 
+    def cells_around(self,row,col):
+        return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] if for ccol in [col+1,col-1] ccol ] if self.mine_map[cell[0]][cell[1]]]
 
     def flag(self,row,col):
         """
@@ -143,17 +146,28 @@ class mine_engine:
             self.message(False,'flag',"""Error in reading variables or there is no map created,
                                                 create a map by runngin create_map() function""")
 
-    def click(self,row,col):
+    def click(self,row,col,srch_bomb = True):
         """
         Will action selecting a cell, if it is mine will blow,
         otherwise will reveal number of mines near for selected cells,
         but if it is zero, checks for each 4 neighbours,if they are numbers,
         reveals them, but if each is zero, again that neighbour checks for unreveled neighbours.
         """
+        if srch_bomb and [row,col] in self.mines_adds:
+            #put all mines in map
+            self.game_over()
+            return
+        else:
+            while(not self.check_cell(row, col)):
+                pass
+            else:
+                #here shows number of mines
+                self.mine_map[row][col] = len(self.check_cell(row,col))
         pass
 
     def game_over(self):
         clear_terminal()
+        #print the map
         print(color.BOLD + color.RED + 'GAME OVER!')
 
     def game_win(self):
