@@ -29,12 +29,14 @@ class mine_engine:
     map_flaged = list()
     num_mines = int()
 
-    def __init__(self):
-        pass
+    def __init__(self,size_row = None,size_col = None, mines_count = 0):
+        clear_terminal()
+        if size_row and size_col:
+            self.map_size = [size_row,size_col]
 
-    def __str__(self):
-        pass
-
+        if mines_count and mines_count > 0:
+            self.num_mines = mines_count
+        self.message(True,'Init')
 
 
     def message(self,result ,operation, cause = None):
@@ -47,9 +49,6 @@ class mine_engine:
             print(color.GREEN + f'{operation} executed successfully')
         else:
             print(color.RED + f'Error in executing {operation} {" -> " + cause if cause else ""}')
-
-
-
 
 
     def map_size(self,rows,cols):
@@ -66,11 +65,12 @@ class mine_engine:
             return False
 
     def print_map(self):
-        if check_vars():
+        clear_terminal()
+        if self.check_vars():
             for num ,row in enumerate(self.mine_map):
                 if num == 0:
                     print('---'*self.map_size[1])
-                print(f'{"|"+col+"|" for col in row}')
+                print(''.join(["| "+col for col in row])+'|')
                 print('---'*self.map_size[1])
         else:
             self.message(False,'print_map','Error in reading variables.')
@@ -94,11 +94,11 @@ class mine_engine:
         Creates a new game mine map
         returns mines' array
         """
-        if check_vars() :
-            self.mine_map = []
-            for row in range(self.map_size[0]):
-                for col in range(self.map_size[1]):
-                    self.mine_map[row][col] = ' '
+        if self.check_vars() :
+            self.mine_map = [[' ' for col in range(self.map_size[1])] for row in range(self.map_size[0])]
+            # for row in range(self.map_size[0]):
+            #     for col in range(self.map_size[1]):
+            #         self.mine_map[row][col] = ' '
             self.message(True,'create_map')
         else:
             self.message(False,'create_map','Error in reading variables.')
@@ -107,13 +107,13 @@ class mine_engine:
         """
         Generates mines addresses and puts them into mines_adds array.
         """
-        if check_vars() and self.mine_map and self.num_mines:
+        if self.check_vars() and self.mine_map and self.num_mines:
             for mine in range(self.num_mines):
                 while True:
-                    randrow = random.randint(0,self.map_size[0])
-                    randcol = random.randint(0,self.map_size[1])
+                    randrow = random.randint(0,self.map_size[0]-1)
+                    randcol = random.randint(0,self.map_size[1]-1)
                     if [randrow,randcol] not in self.mines_adds:
-                        self.mines_adds.append([random,randcol])
+                        self.mines_adds.append([randrow,randcol])
                         break
             self.message(True,'generate_mines')
         else:
@@ -129,7 +129,8 @@ class mine_engine:
         return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] for ccol in [col+1,col-1]] if cell in self.mines_adds]
 
     def cells_around(self,row,col):
-        return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] for ccol in [col+1,col-1]] if self.mine_map[cell[0]][cell[1]]]
+        print(row,col)
+        return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] for ccol in [col+1,col-1]] if cell[0] >= 0 and cell[0] <= self.map_size[0]-1 and cell[1] >= 0 and cell[1] <= self.map_size[1]-1 and self.mine_map[cell[0]][cell[1]]]
 
     def flag(self,row,col):
         """
@@ -155,20 +156,28 @@ class mine_engine:
         reveals them, but if each is zero, again that neighbour checks for unreveled neighbours.
         """
         if srch_bomb and [row,col] in self.mines_adds:
-            #put all mines in map
+            for bomb_cell in self.mines_adds:
+                print(bomb_cell)
+                self.mine_map[bomb_cell[0]][bomb_cell[1]] = 'xP' if bomb_cell in self.map_flaged else 'x'
+
             self.game_over()
             return
         else:
             while(not self.check_cell(row, col)):
                 for cell in self.cells_around(row,col):
-                    click(cell[0],cell[1],False)
+                    self.click(cell[0],cell[1],False)
+                    return
             else:
                 #here shows number of mines
-                self.mine_map[row][col] = len(self.check_cell(row,col))
+                self.mine_map[row][col] = str(len(self.check_cell(row,col)))
+                return
 
     def game_over(self):
         clear_terminal()
-        #print the map
+        self.print_map()
+        print('''xP : flagged mines.
+        x : mines
+        P : flagged cells''')
         print(color.BOLD + color.RED + 'GAME OVER!')
 
     def game_win(self):
