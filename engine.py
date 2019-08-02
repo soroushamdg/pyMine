@@ -96,9 +96,7 @@ class mine_engine:
         """
         if self.check_vars() :
             self.mine_map = [[' ' for col in range(self.map_size[1])] for row in range(self.map_size[0])]
-            # for row in range(self.map_size[0]):
-            #     for col in range(self.map_size[1]):
-            #         self.mine_map[row][col] = ' '
+            
             self.message(True,'create_map')
         else:
             self.message(False,'create_map','Error in reading variables.')
@@ -129,7 +127,7 @@ class mine_engine:
         return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] for ccol in [col+1,col-1]] if cell in self.mines_adds]
 
     def cells_around(self,row,col):
-        print(row,col)
+
         return [cell for cell in [[crow,col] for crow in [row+1,row-1]]+[[row,ccol] for ccol in [col+1,col-1]] if cell[0] >= 0 and cell[0] <= self.map_size[0]-1 and cell[1] >= 0 and cell[1] <= self.map_size[1]-1 and self.mine_map[cell[0]][cell[1]]]
 
     def flag(self,row,col):
@@ -157,7 +155,7 @@ class mine_engine:
         """
         if srch_bomb and [row,col] in self.mines_adds:
             for bomb_cell in self.mines_adds:
-                print(bomb_cell)
+
                 self.mine_map[bomb_cell[0]][bomb_cell[1]] = 'xP' if bomb_cell in self.map_flaged else 'x'
 
             self.game_over()
