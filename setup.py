@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="pymine-soroushamdg",
+    name="pymine",
     version="1.0.0",
     author="Soroush M Pour",
     author_email="soroushmpour@gmail.com",
