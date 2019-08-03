@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pymine",
-    version="1.0.4",
+    version="1.0.5",
     author="Soroush M Pour",
     author_email="soroushmpour@gmail.com",
     description="pyMine is open-source module for Python, helps you to create or play old classic Windows Mine game in Python Terminal enviorment.",
