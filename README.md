@@ -7,13 +7,13 @@ pyMine is an open-source module for Python, helps you to create or play old clas
 
 ## pip
 
-    pip install pyMine
+    pip install pymine
 
 # How to play?
 
 After installing module, you need to import it.
 
-    import pymine
+    from pyMine.engine import mine_engine
 
    pyMine module includes **mine_engine** class, **clear_terminal** function and **COLOR** class.
    create a **mine_engine** object.

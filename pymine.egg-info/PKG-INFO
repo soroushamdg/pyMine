@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: pymine
-Version: 1.0.5
+Version: 1.0.6
 Summary: pyMine is open-source module for Python, helps you to create or play old classic Windows Mine game in Python Terminal enviorment.
 Home-page: https://github.com/soroushmpour/pyMine
 Author: Soroush M Pour
@@ -21,7 +21,7 @@ Description: # Welcome to pyMine!
         
         After installing module, you need to import it.
         
-            import pymine
+            from pyMine.engine import mine_engine
         
            pyMine module includes **mine_engine** class, **clear_terminal** function and **COLOR** class.
            create a **mine_engine** object.
