@@ -28,6 +28,7 @@ engine.flag(7,1)
 # Printing game map
 engine.print_map()
 
+#TO CHEAT AND SEE MINES_ADDRESSES :P
 print(engine.mines_adds)
 
 # Clicking on a cell
