@@ -1,7 +1,7 @@
 # Welcome to pyMine!
 ## Classis Mine game in python!
 ![screen-shot](scsht.png)
-pyMine is open-source module for Python, helps you to create or play old classic Windows Mine game in Python Terminal enviorment.
+pyMine is an open-source module for Python, helps you to create or play old classic Windows Mine game in Python Terminal enviorment.
 
 # How to install?
 
@@ -40,6 +40,6 @@ After all these, you can now print out the game board.
 so now you can start playing, use flag(row,col) to flag a cell, use click(row,col) to choose and click on a cell, it will reveale number of mines around or it will explode!
 
 **Have fun!**
-
 **contact me if you needed help or anything else**:
 **soroushmpour@gmail.com**
+**© @soroushamdg made it.**

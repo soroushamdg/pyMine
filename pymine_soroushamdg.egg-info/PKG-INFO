@@ -1,0 +1,59 @@
+Metadata-Version: 2.1
+Name: pymine-soroushamdg
+Version: 1.0.0
+Summary: pyMine is open-source module for Python, helps you to create or play old classic Windows Mine game in Python Terminal enviorment.
+Home-page: https://github.com/soroushmpour/pymine
+Author: Soroush M Pour
+Author-email: soroushmpour@gmail.com
+License: UNKNOWN
+Description: # Welcome to pyMine!
+        ## Classis Mine game in python!
+        ![screen-shot](scsht.png)
+        pyMine is open-source module for Python, helps you to create or play old classic Windows Mine game in Python Terminal enviorment.
+        
+        # How to install?
+        
+        ## pip
+        
+            pip install pymine
+        
+        # How to play?
+        
+        After installing module, you need to import it.
+        
+            import pymine
+        
+           pyMine module includes **mine_engine** class, **clear_terminal** function and **COLOR** class.
+           create a **mine_engine** object.
+        
+        
+            game = mine_engine(row=10,col=10,mines_count=20)
+        
+        if you wish to define row,col and number of mines later, feel free to leave inputs empty, lator you can set or edit values by:
+        
+         - num_mines -> int
+         - map_size(row,col) -> function
+        
+        After defining mine attributes, first we need to create game board and build cells, then we have to generate mines into board cell.
+        
+            game.create_map() #this will build up game map.
+            game.generate_mines() #this will generate mines and put them into game board.
+        
+        **It's better not to change any of the attributes while playing to prevent any errors.**
+        
+        After all these, you can now print out the game board.
+        
+            game.print_map()
+        
+        so now you can start playing, use flag(row,col) to flag a cell, use click(row,col) to choose and click on a cell, it will reveale number of mines around or it will explode!
+        
+        **Have fun!**
+        **contact me if you needed help or anything else**:
+        **soroushmpour@gmail.com**
+        **© @soroushamdg made it.**
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
