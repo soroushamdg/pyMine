@@ -1,0 +1,9 @@
+README.md
+setup.py
+pyMine/__init__.py
+pyMine/engine.py
+pyMine/test.py
+pymine.egg-info/PKG-INFO
+pymine.egg-info/SOURCES.txt
+pymine.egg-info/dependency_links.txt
+pymine.egg-info/top_level.txt
