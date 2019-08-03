@@ -11,7 +11,7 @@ setuptools.setup(
     description="pyMine is open-source module for Python, helps you to create or play old classic Windows Mine game in Python Terminal enviorment.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/soroushmpour/pymine",
+    url="https://github.com/soroushmpour/pyMine",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
