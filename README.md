@@ -7,7 +7,7 @@ pyMine is an open-source module for Python, helps you to create or play old clas
 
 ## pip
 
-    pip install pymine
+    pip install pyMine
 
 # How to play?
 
